@@ -49,7 +49,7 @@ void process_input();
 void update_game();
 void clear_screen();
 void read_high_score();
-void save_high_score();
+void save_high_score();   
 
 int main() {
     read_high_score();                //loads high score (if there's a high score)
@@ -280,5 +280,6 @@ void save_high_score() {
         fclose(file);                         //close file after writing
     }
 }
+
 
 

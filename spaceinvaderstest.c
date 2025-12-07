@@ -221,9 +221,7 @@ void update_game() { //function to update game state
             if (aliens[r][c].is_alive && aliens[r][c].y == player.y) player.is_alive = 0; //makes sure that the aliens don't hit the row of the player
         }
     }
-
-    // Check collisions
-    // Player bullets vs Aliens
+    //checks for collisions between bullets and aliens
     for (int i = 0; i < 3; i++) {
         if (player_bullets[i].is_active) {
             for (int r = 0; r < 3; r++) {
@@ -231,10 +229,10 @@ void update_game() { //function to update game state
                     if (aliens[r][c].is_alive &&
                         player_bullets[i].x == aliens[r][c].x &&
                         player_bullets[i].y == aliens[r][c].y) {
-                        aliens[r][c].is_alive = 0;  // Kill alien
-                        player_bullets[i].is_active = 0;  // Deactivate bullet
-                        score += 100 * g_level;     // Add score (multiplied by level)
-                        aliens_alive--;             // Decrease alive count
+                        aliens[r][c].is_alive = 0;  //kills alien
+                        player_bullets[i].is_active = 0;  //deactivates bullet after hitting alien
+                        score += 100 * g_level;     //adds score (PS. more points for higher levels, for added game functionality ;))
+                        aliens_alive--;             //minus one alien alive from the counter
                     }
                 }
             }
@@ -242,28 +240,27 @@ void update_game() { //function to update game state
     }
 }
 
-// Function to clear the console screen
 void clear_screen() {
-    system("cls");  // Clear screen (Windows); use "clear" for Linux/Mac
+    system("cls");  //clears screen (so that you do not need to scroll up to see the updated board)
 }
 
-// Function to load high score from file
+//function to read high score from file
 void read_high_score() {
-    FILE *file = fopen("highscore.txt", "r");  // Open file for reading
-    if (file) {                               // If file exists
-        fscanf(file, "%49s %d", g_high_score.name, &g_high_score.score);  // Read name and score
-        fclose(file);                         // Close file
-    } else {                                  // If no file, set defaults
+    FILE *file = fopen("highscore.txt", "r");  //open file for reading
+    if (file) {                               //function checking if the file exists
+        fscanf(file, "%49s %d", g_high_score.name, &g_high_score.score);  //reads name and score (name's limit is 50 characters))
+        fclose(file);                         //closes file after reading
+    } else {                                  //else, `no high score yet` scenario
         strcpy(g_high_score.name, "Nobody");
         g_high_score.score = 0;
     }
 }
 
-// Function to save high score to file
+//function to save high score to file
 void save_high_score() {
-    FILE *file = fopen("highscore.txt", "w");  // Open file for writing
-    if (file) {                               // If file opened successfully
-        fprintf(file, "%s %d\n", g_high_score.name, g_high_score.score);  // Write name and score
-        fclose(file);                         // Close file
+    FILE *file = fopen("highscore.txt", "w");  //opens file for writing
+    if (file) {                               //if the file opens successfully
+        fprintf(file, "%s %d\n", g_high_score.name, g_high_score.score);  //writes name and score to file
+        fclose(file);                         //close file after writing
     }
 }

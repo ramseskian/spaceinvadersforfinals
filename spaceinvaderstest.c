@@ -168,7 +168,7 @@ void process_input() {
     while (1) {                       //loops until the input is valid
         printf("Enter your move: ");
         scanf(" %c", &input);         //reads one character
-        if (input == 'a' || input == 's' || input == 'd') {
+        if (input == 'a' || input == 's' || input == 'd' || input == 'w') {
             break;                    //valid input then exits loop
         }
     }
@@ -190,6 +190,8 @@ void process_input() {
                     break;
                 }
             }
+            break;
+        case 'w':
             break;
     }
     while (getchar() != '\n');  //prevents spamming letters and only 1 letter per iteration
@@ -268,5 +270,4 @@ void save_high_score() {
         fclose(file);                         //close file after writing
     }
 }
-
 

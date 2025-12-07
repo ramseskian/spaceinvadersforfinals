@@ -1,3 +1,13 @@
+/*
+    * CMSC 11 Machine Problem
+    * Space Invaders
+    * Group Members:
+    *    - Esoy, Ramses Kian
+    *    - Pantaleon, Mary Therese
+    *    - Sonon, Francis Kyle
+    *    - Yu, Dan Benedict
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -270,4 +280,5 @@ void save_high_score() {
         fclose(file);                         //close file after writing
     }
 }
+
 

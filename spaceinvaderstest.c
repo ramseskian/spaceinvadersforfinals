@@ -165,9 +165,13 @@ void draw_board() {
 //function for user input
 void process_input() {
     char input;                       //user input
-    printf("Enter your move (a, d, s): ");
-    scanf(" %c", &input);             //reads singular character (just one)
-
+    while (1) {                       //loops until the input is valid
+        printf("Enter your move: ");
+        scanf(" %c", &input);         //reads one character
+        if (input == 'a' || input == 's' || input == 'd') {
+            break;                    //valid input then exits loop
+        }
+    }
     //used switch cases for different inputs
     switch (input) {
         case 'a':
@@ -188,7 +192,7 @@ void process_input() {
             }
             break;
     }
-    scanf("%*c");        //clears any "more" input
+    while (getchar() != '\n');  //prevents spamming letters and only 1 letter per iteration
 }
 
 void update_game() { //function to update game state
@@ -199,7 +203,7 @@ void update_game() { //function to update game state
             if (player_bullets[i].y < 0) player_bullets[i].is_active = 0;
         }
     }
-    
+
     int drop_down = 0;                //aliens changing lanes "dropping down"
     for (int r = 0; r < 3; r++) {
         for (int c = 0; c < 5; c++) {
@@ -212,12 +216,12 @@ void update_game() { //function to update game state
             }
         }
     }
-    
+
     for (int r = 0; r < 3; r++) {
         for (int c = 0; c < 5; c++) {
             if (drop_down) aliens[r][c].y++;  //drops down if flag set
             aliens[r][c].x += g_alien_move_dir;  //moves left or right
-            
+
             if (aliens[r][c].is_alive && aliens[r][c].y == player.y) player.is_alive = 0; //makes sure that the aliens don't hit the row of the player
         }
     }
@@ -265,4 +269,3 @@ void save_high_score() {
         fclose(file);                         //close file after writing
     }
 }
-

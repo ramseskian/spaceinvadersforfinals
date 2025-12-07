@@ -128,8 +128,12 @@ void initialize_game() {
 void draw_board() {
     clear_screen();                   //clears console
 
-    printf("Space Invaders (Machine Problem) - Level %d\n", g_level);  //print title wiwth level
-    printf("Score: %d | Aliens Left: %d | High Score: %d\n", score, aliens_alive, g_high_score.score);  //prints stats on heading
+    printf("Space Invaders (Machine Problem) - Level %d\n", g_level);  //print title with level
+    if (score > g_high_score.score) {
+        printf("Your Score: %d | Aliens Left: %d | Current High Score: %d by You\n", score, aliens_alive, score);
+    } else {
+        printf("Your Score: %d | Aliens Left: %d | Current High Score: %d by %s\n", score, aliens_alive, g_high_score.score, g_high_score.name);
+    }
     printf("----------------------\n");  //top border
 
     //loops through each row and column

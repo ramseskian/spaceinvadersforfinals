@@ -54,49 +54,56 @@ void display_instructions();
 
 int main() {
     read_high_score();                //loads high score (if there's a high score)
-    initialize_game();                //set up the initial state of the game
-    display_instructions();           //displays game instructions
+    char play_again;
+    do {
+        initialize_game();                //set up the initial state of the game
+        display_instructions();           //displays game instructions
 
-    //main game loop
-    while (player.is_alive && aliens_alive > 0) {
-        draw_board();                 //draws the current game board
-        process_input();              //processes input from the user (a,s, or d)
-        update_game();          //updates positions and checks if there are any collisions during the scene
-    }
-
-    //end of game
-    clear_screen();                   //clears the screen
-    printf("\n\n");                   //prints new lines
-    if (aliens_alive == 0) {        //checks if aliens alive are 0, then the player wins. aliens are = 15.
-        printf("    YOU WIN! Level %d completed.\n", g_level);
-        g_level++;                    //increases level after winning
-        aliens_alive = 15;          //resets aliens but harder difficulty
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 5; c++) {
-                aliens[r][c].is_alive = 1;  //revives all the aliens (generates them all again following the matrix [3][5]
-                aliens[r][c].y = r + 1;     //resets y
-            }
+        //main game loop
+        while (player.is_alive && aliens_alive > 0) {
+            draw_board();                 //draws the current game board
+            process_input();              //processes input from the user (a,s, or d)
+            update_game();          //updates positions and checks if there are any collisions during the scene
         }
-        player.is_alive = 1;        //revives player
-        main();                       //restarts main for the new level (new level, harder difficulty)
-    } else {                          //if the player died, it prints game over screen and ends the code after performing the if statement in determining the high score
-        printf("    GAME OVER! The aliens reached you.\n");
-    }
-    printf("    Final Score: %d\n", score);  //shows final score
-    printf("    High Score: %d by %s\n", g_high_score.score, g_high_score.name);  //shows high score
 
-    if (score > g_high_score.score) {       //checks new high score, else it won't change anything
-        printf("    New High Score! Enter your name: ");
-        char name[50];                //buffer for name input
-        fgets(name, sizeof(name), stdin);  //reads name using fgets
-        name[strcspn(name, "\n")] = 0;     //removes newline from input
-        strcpy(g_high_score.name, name);  //copies name to high score struct
-        g_high_score.score = score;     //sets new high score
-        save_high_score();                //saves in the file
-    }
+        //end of game
+        clear_screen();                   //clears the screen
+        printf("\n\n");                   //prints new lines
+        if (aliens_alive == 0) {        //checks if aliens alive are 0, then the player wins. aliens are = 15.
+            printf("    YOU WIN! Level %d completed.\n", g_level);
+            g_level++;                    //increases level after winning
+            aliens_alive = 15;          //resets aliens but harder difficulty
+            for (int r = 0; r < 3; r++) {
+                for (int c = 0; c < 5; c++) {
+                    aliens[r][c].is_alive = 1;  //revives all the aliens (generates them all again following the matrix [3][5]
+                    aliens[r][c].y = r + 1;     //resets y
+                }
+            }
+            player.is_alive = 1;        //revives player
+        } else {                          //if the player died, it prints game over screen and ends the code after performing the if statement in determining the high score
+            printf("    GAME OVER! The aliens reached you.\n");
+        }
+        printf("    Final Score: %d\n", score);  //shows final score
+        printf("    High Score: %d by %s\n", g_high_score.score, g_high_score.name);  //shows high score
 
-    printf("\n    Press Enter to exit...");
-    scanf("%*c");                        //waits for the user to press 'Enter'
+        if (score > g_high_score.score) {       //checks new high score, else it won't change anything
+            printf("    New High Score! Enter your name: ");
+            char name[50];                //buffer for name input
+            fgets(name, sizeof(name), stdin);  //reads name using fgets
+            name[strcspn(name, "\n")] = 0;     //removes newline from input
+            strcpy(g_high_score.name, name);  //copies name to high score struct
+            g_high_score.score = score;     //sets new high score
+            save_high_score();                //saves in the file
+        }
+
+        //asks if player wants to play again
+        printf("\n    Do you want to play again? (Y/N): ");
+        scanf(" %c", &play_again);
+        while (getchar() != '\n');  //clears input buffer
+    } while (play_again == 'y' || play_again == 'Y');
+
+    printf("\n    Thanks for playing! Press Enter to exit...");
+    scanf("%*c");  // waits for enter to exit
     return 0;
 }
 
@@ -129,8 +136,11 @@ void draw_board() {
     clear_screen();                   //clears console
 
     printf("Space Invaders (Machine Problem) - Level %d\n", g_level);  //print title with level
+    // Check if current score is higher than saved high score, and display accordingly
     if (score > g_high_score.score) {
         printf("Your Score: %d | Aliens Left: %d | Current High Score: %d by You\n", score, aliens_alive, score);
+    } else if (g_high_score.score == 0) {
+        printf("Your Score: %d | Aliens Left: %d | Current High Score: None\n", score, aliens_alive);
     } else {
         printf("Your Score: %d | Aliens Left: %d | Current High Score: %d by %s\n", score, aliens_alive, g_high_score.score, g_high_score.name);
     }

@@ -242,6 +242,7 @@ void update_game() { //function to update game state
 
 void clear_screen() {
     system("cls");  //clears screen (so that you do not need to scroll up to see the updated board)
+    system("clear");
 }
 
 //function to read high score from file
@@ -264,3 +265,4 @@ void save_high_score() {
         fclose(file);                         //close file after writing
     }
 }
+

@@ -75,7 +75,7 @@ int main() {
 
     if (score > g_high_score.score) {       //checks new high score, else it won't change anything
         printf("    New High Score! Enter your name: ");
-        char name[50];                // Buffer for name input
+        char name[50];                //buffer for name input
         fgets(name, sizeof(name), stdin);  //reads name using fgets
         name[strcspn(name, "\n")] = 0;     //removes newline from input
         strcpy(g_high_score.name, name);  //copies name to high score struct
@@ -269,3 +269,4 @@ void save_high_score() {
         fclose(file);                         //close file after writing
     }
 }
+

@@ -128,7 +128,7 @@ void initialize_game() {
 void draw_board() {
     clear_screen();                   //clears console
 
-    printf("Space Invaders (Machine Problem) - Level %d\n", g_level);  //print title with level
+    printf("Space Invaders (Machine Problem) - Level %d\n", g_level);  //print title wiwth level
     printf("Score: %d | Aliens Left: %d | High Score: %d\n", score, aliens_alive, g_high_score.score);  //prints stats on heading
     printf("----------------------\n");  //top border
 
@@ -177,19 +177,30 @@ void draw_board() {
 //function for user input
 void process_input() {
     char input;                       //user input
-    while (1) {                       //loops until the input is valid
+    int check = 1;
+    while(check){
         printf("Enter your move: ");
-        scanf(" %c", &input);         //reads one character
-        if (input == 'a' || input == 's' || input == 'd' || input == 'w') {
-            break;                    //valid input then exits loop
-        }
-    }
+        scanf(" %c", &input);
+            if(input == 'W' || input == 'w' || input == 'A' || input == 'a' || input == 'S' || input == 's' || input == 'D' || input == 'd'){
+            check = 0;
+            }
+        clear_screen();
+        draw_board();
+        };
+
+
     //used switch cases for different inputs
     switch (input) {
         case 'a':
             if (player.x > 0) player.x--;  //moves left
             break;
+        case 'A':
+            if (player.x > 0) player.x--;  //moves left
+            break;
         case 'd':
+            if (player.x < 19) player.x++;  //moves right
+            break;
+        case 'D':
             if (player.x < 19) player.x++;  //moves right
             break;
         case 's':
@@ -203,7 +214,20 @@ void process_input() {
                 }
             }
             break;
+        case 'S':
+            //for loop to find bullet slot
+            for (int i = 0; i < 3; i++) {
+                if (!player_bullets[i].is_active) {
+                    player_bullets[i].is_active = 1;  //activates the bullet
+                    player_bullets[i].x = player.x; //sets x to player's x coordinate
+                    player_bullets[i].y = player.y - 1;  //sets y above the player (bullet comes out a line before the player but in the same x coordinate)
+                    break;
+                }
+            }
+            break;
         case 'w':
+            break;
+        case 'W':
             break;
     }
     while (getchar() != '\n');  //prevents spamming letters and only 1 letter per iteration
@@ -292,7 +316,7 @@ void display_instructions() {
     printf("  - [a] Move left\n");
     printf("  - [d] Move right\n");
     printf("  - [s] Shoot (up to 3 bullets at a time)\n");
-    printf("  - [w] Do nothing (reserved for future use)\n");
+    printf("  - [w] Do nothing (for strategic use)\n");
     printf("Scoring: 100 points per alien per level. Higher levels give more points!\n");
     printf("Game Over: If aliens reach your row, you lose.\n");
     printf("High Scores: The high score is saved and displayed after each game.\n\n");

@@ -128,7 +128,7 @@ void initialize_game() {
 void draw_board() {
     clear_screen();                   //clears console
 
-    printf("Space Invaders (Machine Problem) - Level %d\n", g_level);  //print title wiwth level
+    printf("Space Invaders (Machine Problem) - Level %d\n", g_level);  //print title with level
     printf("Score: %d | Aliens Left: %d | High Score: %d\n", score, aliens_alive, g_high_score.score);  //prints stats on heading
     printf("----------------------\n");  //top border
 
